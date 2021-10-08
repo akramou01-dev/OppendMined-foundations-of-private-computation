@@ -1,0 +1,81 @@
+Discret Logarithm problem : 
+    il est facile de trouver le y on sachant le b et le x dans l'équation : y = logb(x) 
+    mais si on fait inclure le module et on met un générateur de groupe (g) a la place de la base (b) ca sera plus difficil de trouver le y dans l'équation suivante : x = g^y(mod p) car le g c'est un générateur il nous donne tous les elements du groupe et on faisant le modulo on peut pas savoir quelle ordre du g^y
+    pour attacker le Discret Logarithm Problem il faut poser des valeur entre 0 et p-1 et calculer les "g^y (mod p)" et voir quelle valeure nous donne le x 
+    aprés avoir implémenter l"algo de l'attaque et faire une petite stats sur le temps de trouver la solution "y" on a afficher un graph qui représente le nombre de bit de p en fonction du temps de trouver la solution et cela nous montre que : 
+        le graph est similaire a une fonction log 
+        le temps augmente en augmentant le nombre de bit du generateur et du p
+        la possibilité de trouver le 'y' de la premiere fois p(n)= 1 / 2^n  , avec n= nbr bits
+        donc la compléxité de l'algo est exponentiel 
+        
+        
+Diffie-Hellman Key Exchange
+    tous d'abord les 2 coté se mettent d'accord sur le "p" et le "g" 
+        les 2 coté choisie un nombre chacun (a et b) et calcul A = g^a(mod p) et B = g^b (mod p) 
+        ils s'échange le A et le B et chacun calcule secret_key  = A^b (mod p) = B^a (mod p ) 
+        on remarque que A^b == (g^a)^b== g^ab et la mm  pour le B du coup les 2 coté vont tomber sur le mm nombre
+        pour sécurisé la comunication il faut mettre le p (prime number) le plus long possible 
+        
+        
+        il est difficile pour l'intercepteur de calculer le "a" et le "b" suivant le Discret Logarithm problem
+        
+Pseudo Generator 
+    Linear Congruentiel Generator 
+        Un generateur de nombre basé sur l'équation dde récurence suivante : Xn+1 = (a*Xn +c ) mod m
+        tel que a , c et m sont des entier a définir
+    l'utilité des pseudo generators 
+        supposant que bob veut envoyer un message alors il va générer 10 nombre randomly et les utiliser dans le One Time Pad pour crypter 
+        et supposant que alice connait deja le seed (first value) alors elle peut generer les mm 10 nombre que bob a generer et les utiliser pour de decryptage
+        il est préferable que les nombre generer forme une distribution plat (il faut pas qu'il porte des information comme par exemple une distribution uniforme envers la moyenne ou qlq chose comme ca ) pour que l'intercepteur n'ai pas une idée sur les nombre que pour qu'il ne peut pas avoir le seed   
+        
+    on peut generer des nombre en se basant sur d'autre seed qui sont lié avec l'environnement physique de l'ordinateur comme la température , fréquence etc ... et cela on utilisant la fonction 'SystemRandom()' du package "secrets" 
+        mm si on donne un seed a la fonction alors on aura pas la mm séries de nombre car on il compte d'autre seed et non pas seulement celui qu'on lui a donnée
+        
+        on travaille pas avec de telle fonction car on peut pas générer la mm série de nombre car les environnement se différent d'un pc a un autre
+            
+Cipher Streams
+    dans le random package il y a une variable "state", si on donne le mm state au random il va nous donné les mm valeurs
+    donc alice et bob peuvent communiquer entre eux on utilisant le mm state:
+        alice envoie un message a bob contenant X chars, donc bob va générer X bytes pour pouvoir faire un padding au message et revenir au plain text et la mm chose pour alice 
+    
+    Dans les Cipher Streams la longueur du message est egale a la langueur du cipher text
+    
+    dans le notebook 'Homemade stream Cipher' il ya une description sur le nonce et son role dans la randomisation 
+        et ajoutant que le nonce est trés important dans l'encryptage mais il n'affecte pas le décryptage
+        
+        
+Block Ciphers 
+    dans le 'stream ciphers' on encodait chaque partie (en generale c'est chaque byte) du message separément mais dans le block ciphers prend un nombre de précis de bytes et on les code en un block cipher de K bytes chaqun et cela depend de la taille du block K
+    
+    dans le block ciphers la taille du cipher text est un multiple de K
+    
+    si le la taille du message (plain text) est inférieur au K (taille du block dans le cipher ) alors on doit faire un padding au message 
+    pour le padding on peut utiliser la methodes : PKCS7 qui consiste a ajouter des bytes contenant comme valeur : nombre de bytes qui manque jusqu'a atteindre la taille voulue (multiple de K) 
+
+
+Modes d'Opération
+    
+    Les Mode d'Opération définissent comment relié chaque block avec l'algorithme et avec les autres block
+    
+    With the AES when we send the same message multiple time it will have the same cipher text so the attacker would know that it's the same message, so this is e vulnirability et cela en utilisant le Mode d'opération ECB
+    in the ECB mode we don't have a relation between the blocks and also between the cipher text so it generate the same cipher text for the same plain text 
+    In the CBC mode , in the first block encryption we do a XOR opération between the first chunk of the plain text and an INITIALIZER VECTOR and for the rest of the chunks (2,3,4,...,n) we do a XOR opération between the cipher text wich it's generated previously and the plain text (in the "t" step we do a XOR wetween the cipher t-1 and block t of the plain text)
+    The CBC mode is better then the ECB mode
+    
+    
+    
+    
+Asymetric Crypto Sys
+    
+    
+    
+    
+
+        
+        
+        
+        
+        
+        
+        
+        
