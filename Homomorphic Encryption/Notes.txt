@@ -1,0 +1,54 @@
+Homomorphic Encryption c'est le faite de travailler avec des donnée chiffré et faire des calcule sur ces données et meme faire des prédiction sur ces donnée et rendre le résultat chiffré aussi 
+par exemple si on veut partager des données avec les autres sans données leur l'accée directe a ces donnée donc on peut utiliser des tachniques de Homomorphic Encryption, et aussi si on veut envoyer des données a un site web pour faire des prédiction et nous rendre le résultat chiffré avec notre public key et qui peut etre déchiffré juste avec notre private key.
+
+dans le Public Key crypto on peut chiffré et déchiffré les donnée en plus de generer une clé secrete , mais dans le HE( Homomorphic Encryption) on peut ajouter une autre fonction qui est l'évaluation, cad on peut faire des calcule et évaluer les donnée chiffrés
+
+en plus de public key et private key on a une 3eme clé dans le HE qui est evaluation key qui est aussi public
+    evaluation key permet de transformer (ou modifer) le cipher text mais il rest encore chiffré et pour le déchiffré il faut avoir le private key
+    on peut faire des opération entre un plain text et un cipher text (le x en cipher et le y en plain text)
+    Noise 
+        La plus part des opération de la HE ajoute un noise au cipher text (le cipher text n'est pas clean a 100% mais il ya un taux d'erreur)
+        l'opération du déchiffrement va éliminer le noise mais s'il depasse un certain seuil alors le cipher text devient un-déchiffré et du coup on peut pas revenir au plain text
+        au fure et a mesure de faire des opération le noise s'amplifie 
+       
+        To avoid the noise when it's too much we can use a BOOSTRAPING operation that it needs the public key to work with
+        
+        
+Homomorphic Types 
+    Pour dir sur un scheme s'il est homomorphic ou non il faut valider 5 question : 
+        1- s'il est symetrique ou asymetrique ?
+            on peut trouver des crypto system homomorphique asymetrique qui utilise une clé public pour le chiffrement et une autre privé pour le déchiffrement en plus d'une clé public d'évaluation , comme on trouve aussi des systeme homomorphic symetrique ou on trouve juste une clé secrete pour le chiffrement et déchiffrement et une autre clé public pour l'évaluation 
+            dans le monde du chiffrement/déchiffrement les systeme symetrique et asymetrique sont complétement différent mais dans la HE il sont équivalent et proches
+           
+        2- quelles sont les computation (calcule) ou "circuit evaluation" qu'il supporte ?
+            hibrid opration = combined plain text and encrypted values
+            un circuit de computation doit etre un graph asyclique directe 
+            les opération dans le circuit sont différents (XOR , addition , multiplication ...) et les types des données sont multiple 
+            on peut transformer un circuit qui marche avec un certain type de donnée en un autre circuit  qui marche avec un autre type de données 
+            il y a des circuit qui supporte les données en vecteur (batching) 
+        3- comment le noise est géré ?
+            on peut distingué 3 type de HE schemes suivant le noise generation : 
+                Partialy HE : circuit limité par une seule opération et un nbr illimité de input, ce type non pas de noise generalement 
+                Somewhat HE : circuit limité par la profondeur de l'arbre il peut contenir plusieurs opération , "noiseless case", boostraping est évité car il est couteux en terme de temps, donc il faut garder le noise a la limite du seuil pour pouvoir le déchiffré  
+                Fully HE    : Pas de limites, on fait tjr le boostraping a chaque opération et cela va accélere le boostraping et rendre les données tjr clean , on peut faire un nbr illimité de processing  
+        4- comment il est sécurisé ?
+        5- quelle eficience a le software ?
+        
+        généralement on se concentre sur les 3 premiers 
+        
+        
+HE and Machine Learning
+    LHR approach  (Leveled HE )
+        fonction linéaire son facile par contre les fonction d'activation pose un problem, donc on va les remplacer par des fonction polinomiale approximative et decomposer les polinomiale en addition et multiplication 
+        le boostraping est evité 
+        Cette approach est a évité kan on travaille avec un Deep Model 
+    FHE (Fully HE) 
+        la mm chose pour les fonction d'activaion 
+        ici on a un boostraping qui est applicable et du coup on a moin de noise 
+        il est applicable au deep models 
+        
+    FHE (Zama) 
+        a la place de remplacer les fonction d'activation on peut faire un boostraping programmable qui prend en input x (cipher text noisy) et output f(x) which is a chipher text less noisy, and like that we can clean our results  
+        
+        
+        
