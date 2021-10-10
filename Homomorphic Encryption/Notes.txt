@@ -51,4 +51,27 @@ HE and Machine Learning
         a la place de remplacer les fonction d'activation on peut faire un boostraping programmable qui prend en input x (cipher text noisy) et output f(x) which is a chipher text less noisy, and like that we can clean our results  
         
         
+
+
+TenSEAL
+    CKKS 
+        il sont des Leveled HE Scheme qui peuvent chiffré des message en vecteur ou nombre complexe 
+        la taille du vecteur est un parametres et souvant une puissance de 2
+        le ciphertext peut avoir plsr valeur (vecteur de valeurs) ou qu'une seule valeur et des opérations mais le temps de calcule reste le meme
+        on peut faire une rotation du vecteur a gauche ou a droite avec n positions
+        pour le noise , les CKKS le considére comme une erreur, donc on a pas besoin d'introduire le boostraping 
+        
+        les CKKS nous donne la possibilité de faire des calcules juste entre les ciphertexts et aussi entre des ciphertext and plaintexts
+        
+    
+    TenSEAL est une lib pour gerer les tensor comme Pytorch et Tensorflow mais dans TenSEAL on a les tensors qui sont chiffré a l'aide du HE
+    kan on tarvaille avec TenSEAL on a besoin du context qui nous  donne la possibilié de generer des clé (privé et public) et il peut controler les performence du calcule , il est indispansbale au calcule chiffré 
+    Context params 
+        le nombre de multiplication (ou la profondeur de la multiplication) est controler par len(coeff_mod_bit_sizes) -2 genre si la list des coeff_mod_bit_sizes contient 6 element alors on peut faire 4 multiplication entre les cipher_texts
+        les element du coeff_mod_bit_sizes[1:-1] doivent etre égales car il font le rescaling of the cipher text 
+        le scale di cipher text controle la précision, the biggest , the more precision
+        
+        
+        ya pas une regle générale pour choisir les parametre, chaque calcule a sont propre dépendances
+        
         
